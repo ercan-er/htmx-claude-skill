@@ -97,7 +97,7 @@ This skill is server-first.
 
 2. Or install via npm (when published):
    ```bash
-   npm install -g htmx-claude-skill
+   npm install -g htmx-skill
    ```
 
 ## For Codex
@@ -173,7 +173,7 @@ Check out the pattern examples in `examples/patterns/`:
 # Project Structure
 
 ```
-htmx-claude-skill/
+htmx-skill/
 ├── SKILL.md              # Core HTMX skill
 ├── ENTERPRISE.SKILL.md   # Enterprise patterns
 ├── examples/

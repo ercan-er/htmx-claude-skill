@@ -1,5 +1,5 @@
 {
-  "name": "htmx-claude-skill",
+  "name": "htmx-skill",
   "version": "1.0.0",
   "description": "Expert HTMX skill for Claude, Cursor, and Codex. Enforces HTML-over-the-wire architecture, fragment-based rendering, and server-driven UI patterns.",
   "main": "SKILL.md",
