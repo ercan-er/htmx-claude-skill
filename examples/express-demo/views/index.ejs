@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTMX Express Demo</title>
+  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>HTMX Todo App</h1>
+      <p>Server-driven UI with HTML fragments</p>
+    </header>
+    
+    <main>
+      <div id="flash-messages"></div>
+      
+      <div class="todo-section">
+        <h2>Add Todo</h2>
+        <form id="todo-form"
+              hx-post="/todos"
+              hx-target="#todo-list"
+              hx-swap="afterbegin"
+              hx-on::after-request="if(event.detail.successful) { this.reset(); }"
+              hx-on::htmx:response-error="handleFormError(event)">
+          <div class="form-group">
+            <input type="text" 
+                   name="title" 
+                   placeholder="What needs to be done?"
+                   required
+                   autofocus>
+            <button type="submit">Add</button>
+          </div>
+          <div id="form-errors"></div>
+        </form>
+      </div>
+      
+      <div class="todo-section">
+        <h2>Todos (<span id="todo-count"><%= todos.length %></span>)</h2>
+        <div id="todo-list">
+          <% todos.forEach(todo => { %>
+            <%- include('_todo_item', { todo }) %>
+          <% }); %>
+        </div>
+      </div>
+      
+      <script>
+        function handleFormError(event) {
+          const form = event.target;
+          const errorsDiv = form.querySelector('#form-errors');
+          if (errorsDiv) {
+            errorsDiv.innerHTML = event.detail.xhr.responseText;
+          }
+        }
+      </script>
+    </main>
+    
+    <footer>
+      <p>Built with HTMX + Express.js</p>
+    </footer>
+  </div>
+</body>
+</html>

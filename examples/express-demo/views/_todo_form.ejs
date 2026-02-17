@@ -1,0 +1,22 @@
+<form id="todo-form"
+      hx-post="/todos"
+      hx-target="#todo-list"
+      hx-swap="afterbegin"
+      hx-on::after-request="if(event.detail.successful) { this.reset(); }">
+  <div class="form-group">
+    <input type="text" 
+           name="title" 
+           placeholder="What needs to be done?"
+           value="<%= values && values.title ? values.title : '' %>"
+           required
+           autofocus>
+    <button type="submit">Add</button>
+  </div>
+  <% if (errors && errors.length > 0) { %>
+    <div class="errors">
+      <% errors.forEach(error => { %>
+        <div class="error"><%= error %></div>
+      <% }); %>
+    </div>
+  <% } %>
+</form>

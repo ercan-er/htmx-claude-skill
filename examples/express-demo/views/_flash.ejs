@@ -1,0 +1,17 @@
+<div class="flash-message" 
+     hx-swap-oob="true"
+     id="flash-messages">
+  <div class="flash flash-success">
+    <%= message %>
+  </div>
+</div>
+
+<script>
+  setTimeout(() => {
+    const flash = document.getElementById('flash-messages');
+    if (flash) {
+      flash.style.opacity = '0';
+      setTimeout(() => flash.remove(), 300);
+    }
+  }, 3000);
+</script>
