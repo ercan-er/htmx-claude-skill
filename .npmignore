@@ -1,0 +1,23 @@
+# Development files
+node_modules/
+.git/
+.github/
+*.log
+.DS_Store
+
+# Test files (keep tests/ directory but ignore if not needed)
+# tests/
+
+# Example dependencies
+examples/express-demo/node_modules/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment files
+.env
+.env.local

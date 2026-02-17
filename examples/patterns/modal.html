@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTMX Modal Pattern</title>
+  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .close-btn:hover {
+      color: #000;
+    }
+    .open-modal-btn {
+      padding: 0.75rem 1.5rem;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .open-modal-btn:hover {
+      background: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Modal Pattern</h1>
+  <p>Click the button to open a modal. The modal is inserted into the body using <code>hx-swap="beforeend"</code> and removed with <code>hx-swap="outerHTML"</code>.</p>
+  
+  <button class="open-modal-btn"
+          hx-get="/modal"
+          hx-target="body"
+          hx-swap="beforeend">
+    Open Modal
+  </button>
+  
+  <script>
+    // Server endpoint:
+    // GET /modal
+    // Returns modal HTML:
+    // <div id="modal" class="modal active">
+    //   <div class="modal-content">
+    //     <div class="modal-header">
+    //       <h2>Modal Title</h2>
+    //       <button class="close-btn"
+    //               hx-get="/close-modal"
+    //               hx-target="#modal"
+    //               hx-swap="outerHTML">×</button>
+    //     </div>
+    //     <div class="modal-body">
+    //       <p>Modal content goes here</p>
+    //     </div>
+    //   </div>
+    // </div>
+    //
+    // GET /close-modal
+    // Returns empty response or:
+    // <div id="modal" class="modal"></div>
+    //
+    // Close on backdrop click:
+    document.body.addEventListener('click', (e) => {
+      if (e.target.id === 'modal') {
+        const modal = document.getElementById('modal');
+        if (modal) {
+          htmx.ajax('GET', '/close-modal', {
+            target: '#modal',
+            swap: 'outerHTML'
+          });
+        }
+      }
+    });
+    
+    // Close on Escape key:
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('modal');
+        if (modal && modal.classList.contains('active')) {
+          htmx.ajax('GET', '/close-modal', {
+            target: '#modal',
+            swap: 'outerHTML'
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>

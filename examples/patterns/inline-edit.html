@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTMX Inline Edit Pattern</title>
+  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .editable {
+      padding: 0.5rem;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .editable:hover {
+      background: #f5f5f5;
+      border-color: #ddd;
+    }
+    .editing {
+      border-color: #3498db;
+    }
+    .edit-form {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .edit-form input {
+      flex: 1;
+      padding: 0.5rem;
+      border: 2px solid #3498db;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    .edit-form button {
+      padding: 0.5rem 1rem;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .edit-form button:hover {
+      background: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Inline Edit Pattern</h1>
+  <p>Click on any item to edit it inline. Uses <code>hx-swap="outerHTML"</code> to replace the view with edit form and vice versa.</p>
+  
+  <div class="editable" 
+       id="item-1"
+       hx-get="/items/1/edit"
+       hx-target="this"
+       hx-swap="outerHTML">
+    <span>Click to edit: Sample Item</span>
+  </div>
+  
+  <div class="editable" 
+       id="item-2"
+       hx-get="/items/2/edit"
+       hx-target="this"
+       hx-swap="outerHTML">
+    <span>Click to edit: Another Item</span>
+  </div>
+  
+  <script>
+    // Server endpoints:
+    // 
+    // GET /items/1/edit
+    // Returns edit form:
+    // <div class="editable" id="item-1">
+    //   <form class="edit-form" 
+    //         hx-put="/items/1"
+    //         hx-target="#item-1"
+    //         hx-swap="outerHTML">
+    //     <input type="text" name="title" value="Sample Item" autofocus>
+    //     <button type="submit">Save</button>
+    //     <button type="button" 
+    //             hx-get="/items/1"
+    //             hx-target="#item-1"
+    //             hx-swap="outerHTML">Cancel</button>
+    //   </form>
+    // </div>
+    //
+    // PUT /items/1
+    // Returns updated view:
+    // <div class="editable" id="item-1"
+    //      hx-get="/items/1/edit"
+    //      hx-target="this"
+    //      hx-swap="outerHTML">
+    //   <span>Click to edit: Updated Item</span>
+    // </div>
+    //
+    // GET /items/1
+    // Returns view (for cancel):
+    // <div class="editable" id="item-1"
+    //      hx-get="/items/1/edit"
+    //      hx-target="this"
+    //      hx-swap="outerHTML">
+    //   <span>Click to edit: Sample Item</span>
+    // </div>
+  </script>
+</body>
+</html>

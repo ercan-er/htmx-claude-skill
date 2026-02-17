@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTMX Infinite Scroll Pattern</title>
+  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .item {
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: #f5f5f5;
+      border-radius: 4px;
+    }
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+    }
+    .skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Infinite Scroll Pattern</h1>
+  <p>Scroll down to load more items. Uses <code>hx-trigger="intersect"</code> to detect when the loading element enters the viewport.</p>
+  
+  <div id="items">
+    <!-- Initial items -->
+    <div class="item">Item 1</div>
+    <div class="item">Item 2</div>
+    <div class="item">Item 3</div>
+  </div>
+  
+  <!-- Loading trigger -->
+  <div hx-get="/items?page=2"
+       hx-trigger="intersect"
+       hx-target="#items"
+       hx-swap="beforeend"
+       hx-select=".item"
+       class="loading">
+    <div class="skeleton" style="height: 60px; border-radius: 4px;"></div>
+  </div>
+  
+  <script>
+    // Server endpoint example:
+    // GET /items?page=2
+    // Returns HTML fragments:
+    // <div class="item">Item 4</div>
+    // <div class="item">Item 5</div>
+    // <div class="item">Item 6</div>
+    // 
+    // If no more items, return empty response or:
+    // <div hx-swap-oob="true" style="display:none"></div>
+  </script>
+</body>
+</html>
