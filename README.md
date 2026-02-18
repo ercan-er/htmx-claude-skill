@@ -1,8 +1,8 @@
-# HTMX Expert Skill
+# HTMX Expert Skill v2
 
 > Stop building CRUD apps like it's 2018.
 
-A strict, production-grade HTMX skill for Claude, Cursor and Codex.
+A modular, AI-optimized, production-grade HTMX skill for Claude, Cursor and Codex.
 
 This skill enforces:
 
@@ -75,8 +75,9 @@ This skill is server-first.
 
 # Included
 
-- Core HTMX Expert Skill
-- Enterprise Strict Version
+- **Modular skill layout:** core rules (`skill/skills.md`), activation (`skill/activation.md`), reference docs (`skill/reference/`)
+- Reference: attributes, triggers, swap, events, server-patterns, validation, security, performance, headers, anti-patterns
+- Enterprise Strict Version (`ENTERPRISE.SKILL.md`)
 - Express + HTMX Production Demo
 - Real-world patterns
 - Anti-pattern enforcement
@@ -112,10 +113,12 @@ This skill is server-first.
 # Usage
 
 The skill automatically activates when you:
-- Ask about HTMX patterns
-- Build server-driven UIs
-- Work with HTML fragments
-- Implement progressive enhancement
+- Use or ask about `hx-` attributes and HTMX patterns
+- Build server-driven UIs and CRUD with minimal JS
+- Work with HTML fragments, HX-Request, or partial templates
+- Migrate from React/Vue to HTMX or implement progressive enhancement
+
+See [skill/activation.md](skill/activation.md) for full activation rules.
 
 ---
 
@@ -162,11 +165,7 @@ Visit `http://localhost:3000` to see HTMX in action.
 
 ## Explore Patterns
 
-Check out the pattern examples in `examples/patterns/`:
-- `infinite-scroll.html` - Lazy loading with intersection observer
-- `inline-edit.html` - Edit-in-place pattern
-- `modal.html` - Modal dialogs with HTMX
-- `live-search.html` - Debounced search
+Check out the pattern examples in `examples/` (e.g. `examples/express-demo/`). For detailed attribute, swap, and server guidance see `skill/reference/`.
 
 ---
 
@@ -174,13 +173,25 @@ Check out the pattern examples in `examples/patterns/`:
 
 ```
 htmx-skill/
-├── SKILL.md              # Core HTMX skill
-├── ENTERPRISE.SKILL.md   # Enterprise patterns
-├── examples/
-│   ├── express-demo/     # Full Express.js demo
-│   └── patterns/         # Pattern examples
-├── tests/                # Validation tests
-└── .github/workflows/    # CI/CD
+├── SKILL.md                 # Entry point → skill/skills.md
+├── ENTERPRISE.SKILL.md      # Enterprise patterns
+├── skill/
+│   ├── skills.md            # Core HTMX expert (rules, activation context)
+│   ├── activation.md        # When to activate this skill
+│   └── reference/           # Detailed reference docs
+│       ├── attributes.md
+│       ├── triggers.md
+│       ├── swap.md
+│       ├── events.md
+│       ├── server-patterns.md
+│       ├── validation.md
+│       ├── security.md
+│       ├── performance.md
+│       ├── headers.md
+│       └── anti-patterns.md
+├── examples/                # Express demo, pattern examples
+├── tests/                   # Validation tests
+└── .github/workflows/       # CI/CD
 ```
 
 ---

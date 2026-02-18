@@ -1,11 +1,12 @@
 {
   "name": "htmx-skill",
-  "version": "1.0.0",
-  "description": "Expert HTMX skill for Claude, Cursor, and Codex. Enforces HTML-over-the-wire architecture, fragment-based rendering, and server-driven UI patterns.",
+  "version": "1.0.1",
+  "description": "Modular HTMX expert skill v2 for Claude, Cursor, and Codex. Enforces HTML-over-the-wire, fragment rendering, server-driven UI, and production patterns.",
   "main": "SKILL.md",
   "files": [
     "SKILL.md",
     "ENTERPRISE.SKILL.md",
+    "skill/**/*",
     "README.md",
     "CHANGELOG.md",
     "LICENSE",
