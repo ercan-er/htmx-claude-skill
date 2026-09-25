@@ -1,0 +1,35 @@
+name: IronBee Verification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: ironbee-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ironbee-ai/ironbee-action@v1
+        with:
+          ironbee_api_key: ${{ secrets.IRONBEE_API_KEY }}
+          verification_mode: platform
+          verification_apply_fix: false
+          # Where the app runs during the workflow: on this runner ...
+          app_install_command: npm ci
+          app_build_command: npm run build
+          app_start_command: node tests/skill-validation.test.js && node tests/examples.test.js"
+          app_port: 3000
+          # ... or at a preview URL instead of the four lines above:
+          # app_url: https://preview.example.com
